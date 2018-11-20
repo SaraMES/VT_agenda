@@ -1,1 +1,90 @@
+#+TITLE: Projet VT RESEAU
 
+
+* Table of Contents                                       :TOC_4_gh:noexport:
+- [[#team][Team]]
+- [[#contexte][Contexte]]
+- [[#contrat-daccès][Contrat d'accès]]
+  - [[#accès][Accès]]
+    - [[#connexion][Connexion]]
+    - [[#inscription][Inscription]]
+  - [[#accueil][Accueil]]
+    - [[#getmyprofile][GetMyProfile]]
+    - [[#getmyphotos][GetMyPhotos]]
+    - [[#modifymyprofile][ModifyMyProfile]]
+  - [[#file-dactualité][File d'actualité]]
+    - [[#postphoto][PostPhoto]]
+    - [[#deletepost][DeletePost ]]
+    - [[#getpost][GetPost ]]
+    - [[#like-loading][Like]]
+    - [[#alreadyliked][AlreadyLiked ]]
+    - [[#getallcomments][GetAllComments]]
+    - [[#getuserprofile][GetUserProfile]]
+    - [[#getmynewsfeed][GetMyNewsFeed]]
+  - [[#abonnéabonnements][Abonné/Abonnements]]
+    - [[#getallusers][GetAllUsers ]]
+    - [[#getallmyfollowers][GetAllMyFollowers ]]
+    - [[#getallmyfollowings][GetAllMyFollowings ]]
+    - [[#getwaitinglist][GetWaitingList ]]
+    - [[#follow-sabonner][Follow (s'abonner) ]]
+    - [[#unfollow-se-désabonner][Unfollow (se désabonner) ]]
+    - [[#acceptfollower-accepter-une-demande-dabonnement][AcceptFollower (accepter une demande d'abonnement)]]
+    - [[#refusefollowrequest-refuser--une-demande-dabonnement][RefuseFollowRequest (refuser  une demande d'abonnement) ]]
+    - [[#deletefollower-supprimer-un-abonné][DeleteFollower (supprimer un abonné)]]
+    - [[#getavailableusers-loading-][GetAvailableUsers]]
+  - [[#notification][Notification]]
+    - [[#notify][Notify]]
+      - [[#followerrequest--loading][FollowerRequest  (loading...)]]
+      - [[#newpost-loading][NewPost (loading...)]]
+    - [[#deletenotification][DeleteNotification]]
+  - [[#À-venir][À venir]]
+    - [[#getmypassword-loading][GetMyPassword (loading...)]]
+
+* Team
+- Kevin
+- Sara
+- Mohamed
+- Aya
+
+* Contexte
+VT agenda est un outil de gestion des ressources humaines et matériel au sein de l'université d'evry
+
+
+* Contrat d'API
+** Calendrier
+*** GET Calendrier
+   - Return : http code
+   - Url :[[http://localhost:3000/calendrier]]
+   - Method : =GET=
+   - Required : =Date Debut=[String]=  =Date Fin=[String]=
+   - Success Response :
+     - Code : =200=
+     - Content : 
+             [
+    {
+        "codeSeance": 000000,
+        "dateSeance": "2018-11-04T23:00:00.000Z",
+        "heureSeance": 830,
+        "dureeSeance": 130,
+        "codeEnseignement": 000000,
+        "dateModif": "2018-09-10T10:37:52.000Z",
+        "deleted": 0,
+        "codeProprietaire": 00000,
+        "commentaire": "Prof : TEST",
+        "bloquee": 0,
+        "diffusable": 1,
+        "dateCreation": "2018-05-03T15:00:06.000Z",
+        "annulee": 0,
+        "controle": 0,
+        "codeRessource": 000000,
+        "nom": "68362355",
+        "prenom": "68362355",
+        "nom_salle": "MAU-1-01N08",
+        "alias": "ANGLAIS 1"
+    },
+    ...
+   ]
+             
+   - Error Response :
+     - Code : =400 BAD REQUEST=
+     - Content : =Rentrer une date Debut/Fin valide=
