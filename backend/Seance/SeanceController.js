@@ -49,6 +49,17 @@ router.post('/prof', function (req, res) {
     });
 });
 
+router.post('/groupe', function (req, res) {
+    Seance.creategroupeseance(req.body, function (err, count) {
+        if (err) {
+            res.status(400).json(err);
+        }
+        else {
+            res.json(req.body);
+        }
+    });
+});
+
 router.post('/delete/:code_seance?', function (req, res) {
     Seance.deleteseance(req.params.code_seance, function (err) {
         if (err) {

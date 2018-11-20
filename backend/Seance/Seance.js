@@ -16,6 +16,9 @@ var Seance = {
     createprofseance: function (Seance, callback) {
         return db.query('Insert into seances_profs(codeSeance,codeRessource)values(?, ?)',[Seance.codeSeance,Seance.codeRessource], callback);
     },
+    creategroupeseance: function (Seance, callback) {
+        return db.query('Insert into seances_groupes(codeSeance,codeRessource)values(?, "68226118")',[Seance.codeSeance], callback);
+    },
     deleteseance: function (code_seance, callback) {
         return db.query('UPDATE seanceS SET deleted=1 WHERE codeSeance = ?', [code_seance], callback);
     }
