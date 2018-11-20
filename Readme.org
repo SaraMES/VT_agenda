@@ -4,9 +4,9 @@
 * Table of Contents                                       :TOC_4_gh:noexport:
 - [[#team][Team]]
 - [[#contexte][Contexte]]
-- [[#contrat_d'api][Contrat d'API]]
+- [[#contrat-dapi][Contrat d'API]]
   - [[#calendrier][Calendrier]]
-    - [[#get_calendrier][GET Calendrier]]
+    - [[#get-calendrier][GET Calendrier]]
   - [[#seance][Seance]]
     - [[#getseance][GET Seance by Id]]
 
