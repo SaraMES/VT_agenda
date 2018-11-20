@@ -30,9 +30,9 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
    - Required : =Date Debut=[String]=  =Date Fin=[String]=
    - Success Response :
      - Code : =200=
-     - Content : 
-             [
-    {
+     - Content :
+     
+     {
         "codeSeance": 000000,
         "dateSeance": "2018-11-04T23:00:00.000Z",
         "heureSeance": 830,
@@ -54,7 +54,6 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
         "alias": "ANGLAIS 1"
     },
     ...
-   ]
              
    - Error Response :
      - Code : =400 BAD REQUEST=
