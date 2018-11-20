@@ -12,9 +12,9 @@
 
 
 * Team
-- Kevin
 - Sara
 - Mohamed
+- Kevin
 - Aya
 
 * Contexte
