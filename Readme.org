@@ -59,4 +59,3 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
    - Error Response :
      - Code : =400 BAD REQUEST=
      - Content : =Rentrer une date Debut/Fin valide=
- 
