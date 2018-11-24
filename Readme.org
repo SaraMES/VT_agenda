@@ -109,7 +109,6 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
    - Url : [[http://localhost:3000/seance]]
    - Method : Post
    - Required :
-     =Bearer Token=
           =dateSeance=[String]=
           =heureSeance=[String]=
           =dureeSeance=[String]=
@@ -129,7 +128,6 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
    - Url : [[http://localhost:3000/seance/salle]]
    - Method : Post
    - Required :
-     =Bearer Token=
           =codeSeance=[String]=
           =codeRessource=[String]=
      - Success Response :
@@ -145,7 +143,6 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
    - Url : [[http://localhost:3000/seance/prof]]
    - Method : Post
    - Required :
-     =Bearer Token=
           =codeSeance=[String]=
           =codeRessource=[String]=
      - Success Response :
@@ -161,7 +158,6 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
    - Url : [[http://localhost:3000/seance/[[=codeSeance=]]]]
    - Method : Post
    - Required :
-     =Bearer Token=
           =codeSeance=[String]=
           =codeRessource=[String]=
      - Success Response :
