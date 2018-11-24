@@ -82,35 +82,35 @@ export default {
         var h5 = parseInt(dureeInt / 100)
         var min5 = dureeInt % 100
         if (h5 < 10) {
-          this.events[i].end = dateSeance + ' ' + '0' + h5 + ':' + min5
+          end = dateSeance + ' ' + '0' + h5 + ':' + min5
         } else {
-          this.events[i].end = dateSeance + ' ' + h5 + ':' + min5
+          end = dateSeance + ' ' + h5 + ':' + min5
         }
       }
       if (dureeInt % 100 === 0) {
         var h4 = parseInt(dureeInt / 100)
         if (h4 < 10) {
-          this.events[i].end = dateSeance + ' ' + '0' + h4 + ':' + '00'
+          end = dateSeance + ' ' + '0' + h4 + ':' + '00'
         } else {
-          this.events[i].end = dateSeance + ' ' + h4 + ':' + '00'
+          end = dateSeance + ' ' + h4 + ':' + '00'
         }
       }
       if (dureeInt % 100 > 60) {
         var h1 = parseInt(dureeInt / 100) + parseInt((dureeInt % 100) / 60)
         var min1 = dureeInt % 60
         if (h1 < 10) {
-          this.events[i].end = dateSeance + ' ' + '0' + h1 + ':' + min1
+          end = dateSeance + ' ' + '0' + h1 + ':' + min1
         } else {
-          this.events[i].end = dateSeance + ' ' + h1 + ':' + min1
+          end = dateSeance + ' ' + h1 + ':' + min1
         }
       }
       if (dureeInt % 100 === 60) {
         var h3 = parseInt(dureeInt / 100) + parseInt((dureeInt % 100) / 60)
         var min3 = '00'
         if (h3 < 10) {
-          this.events[i].end = dateSeance + ' ' + '0' + h3 + ':' + min3
+          end = dateSeance + ' ' + '0' + h3 + ':' + min3
         } else {
-          this.events[i].end = dateSeance + ' ' + h3 + ':' + min3
+          end = dateSeance + ' ' + h3 + ':' + min3
         }
       }
 
