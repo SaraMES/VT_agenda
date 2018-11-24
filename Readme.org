@@ -9,6 +9,19 @@
     - [[#get-calendrier][GET Calendrier]]
   - [[#seance][Seance]]
     - [[#getseance][GET Seance by Id]]
+    - [[#CreateSeance][Create Seance]]
+    - [[#CreateSalleSeance][Create Salle Seance]]
+    - [[#CreateProfSeance][Create Prof Seance]]
+    - [[#DeleteSeance][Delete Seance]]
+  - [[#Professeur][Professeur]]
+    - [[#getProfesseur][GET Professeur]]
+  - [[#Salle][Salle]]
+    - [[#GetSalle][GET Salle]]
+  - [[#Enseignement][Enseignement]]
+    - [[#GetEnseignement][GET Enseignement]]
+
+    
+    
 
 
 * Team
