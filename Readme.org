@@ -58,3 +58,31 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
    - Error Response :
      - Code : =400 BAD REQUEST=
      - Content : =Rentrer une date Debut/Fin valide=
+     
+** Seance
+*** GET Seance
+    - Return : http code
+    - Url :[[http://localhost:3000/seance]]
+    - Method : =GET=
+    - Required : =codeSeance=[String]=
+    - Success Response :
+    - Code : =200=
+    - Content :
+
+    {
+        "codeSeance": 243622,
+        "dateSeance": "2018-11-04T23:00:00.000Z",
+        "heureSeance": 830,
+        "dureeSeance": 130,
+        "codeEnseignement": 68438839,
+        "dateModif": "2018-09-10T12:37:52.000Z",
+        "deleted": 0,
+        "codeProprietaire": 90019,
+        "commentaire": "Prof : GUILLAUME PISSOT",
+        "bloquee": 0,
+        "diffusable": 1,
+        "dateCreation": "2018-05-03T15:00:06.000Z",
+        "annulee": 0,
+        "controle": 0
+    }
+     
