@@ -1,57 +1,75 @@
 <template>
-  <full-calendar  :config="config" :events="events" />
+  <div id="HelloWorld">
+    <full-calendar :config="config" :events="events" />
+    <medit
+      v-if="showModal"
+      @mclose="showModal=false"
+      v-bind:selection="selected"
+    ></medit>
+    <button @click="showModal=true">Show Modal</button>
+  </div>
 </template>
 <script>
 import axios from 'axios'
+import $ from 'jquery'
+import 'fullcalendar'
+import medit from './medit.vue'
+
+const url = 'http://localhost:3000/calendrier/'
+
 export default {
   name: 'HelloWorld',
+  components: {
+    'medit': medit
+  },
   data () {
     return {
+      showModal: false,
       events: [
         {
           title: '',
           start: '',
           end: ''
-        }],
+        }
+      ],
       config: {
+        monthStart: '',
+        monthEnd: '',
         defaultView: 'month',
-        eventRender: function (event, element) {
+
+        eventClick: (event) => {
+          console.log('eventClick')
+          this.selected = event
           console.log(event)
+          this.showModal = true
+        },
+
+        eventRender: function (event, element) {
+          console.log('eventRender')
+        },
+
+        dayClick: function (date, event, view) {
+          console.log('dayClick')
+          console.log('clicked on ' + date.format())
+          this.selected = event
+          console.log(event)
+        },
+
+        select: function () {
+          console.log('select')
+        },
+
+        eventDrop: function () {
+          console.log('eventDrop')
+        },
+        mclose: function () {
+          console.log('close modal')
         }
       }
     }
   },
-  mounted () {
-    axios.get('http://localhost:3000/calendrier/2018-11-05/2018-11-10')
-      .then((response) => {
-        console.log(response.data)
-        console.log(response.data.length)
 
-        for (var i = 0; i < response.data.length; i++) {
-          var Seance = response.data[i].codeSeance
-          var Salle = response.data[i].nom_salle
-          var Prof = response.data[i].nom + ' ' + response.data[i].prenom
-
-          var titre = this.formatTitle(Seance, Prof, Salle)
-
-          var dateSeance = new Date(response.data[i].dateSeance).toISOString().slice(0, 10)
-          var h = parseInt(response.data[i].heureSeance / 100)
-          var min = response.data[i].heureSeance - (h * 100)
-
-          var debut = this.formatStart(dateSeance, h, min)
-
-          var heureSeance = response.data[i].heureSeance
-          var dureeSeance = response.data[i].dureeSeance
-
-          var fin = this.formatEnd(dateSeance, heureSeance, dureeSeance)
-
-          this.events.push({title: titre, start: debut, end: fin})
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  },
+  selected: {},
 
   methods: {
     formatTitle: function (Seance, Prof, Salle) {
@@ -76,8 +94,8 @@ export default {
 
     formatEnd: function (dateSeance, heureSeance, dureeSeance) {
       var end
-
       var dureeInt = heureSeance + dureeSeance
+
       if (dureeInt % 100 < 60) {
         var h5 = parseInt(dureeInt / 100)
         var min5 = dureeInt % 100
@@ -89,6 +107,7 @@ export default {
       }
       if (dureeInt % 100 === 0) {
         var h4 = parseInt(dureeInt / 100)
+
         if (h4 < 10) {
           end = dateSeance + ' ' + '0' + h4 + ':' + '00'
         } else {
@@ -115,11 +134,76 @@ export default {
       }
 
       return end
+    },
+
+    formatMonthFromTo: function () {
+      var moment = $('#calendar').fullCalendar('getDate')
+      moment.stripTime()
+
+      this.config.monthStart = moment.format().slice(0, 8) + '01'
+      this.config.monthEnd = moment.format().slice(0, 8) + '31'
+    },
+
+    formatUrl: function () {
+      var usedUrl = url
+      usedUrl += this.config.monthStart + '/'
+      usedUrl += this.config.monthEnd + '/'
+
+      console.log(usedUrl)
+
+      return usedUrl
+    },
+
+    refreshEvents () {
+      console.log('refresh')
+      this.$refs.calendar.$emit('refetch-events')
+    },
+    removeEvent () {
+      console.log('remove')
+      this.$refs.calendar.$emit('remove-event', this.selected)
+      this.selected = {}
+    },
+    eventSelected (event) {
+      console.log('selected')
+      this.selected = event
+    },
+    eventCreated (...test) {
+      console.log(test)
     }
   },
 
-  computed: {
+  mounted () {
+    console.log(url)
+    this.formatMonthFromTo()
 
+    axios.get('http://localhost:3000/calendrier/2018-01-01/2018-12-31')
+      .then((response) => {
+        console.log(response.data.length)
+
+        for (var i = 0; i < response.data.length; i++) {
+          var Seance = response.data[i].codeSeance
+          var Salle = response.data[i].nom_salle
+          var Prof = response.data[i].nom + ' ' + response.data[i].prenom
+
+          var titre = this.formatTitle(Seance, Prof, Salle)
+
+          var dateSeance = new Date(response.data[i].dateSeance).toISOString().slice(0, 10)
+          var h = parseInt(response.data[i].heureSeance / 100)
+          var min = response.data[i].heureSeance - (h * 100)
+
+          var debut = this.formatStart(dateSeance, h, min)
+
+          var heureSeance = response.data[i].heureSeance
+          var dureeSeance = response.data[i].dureeSeance
+
+          var fin = this.formatEnd(dateSeance, heureSeance, dureeSeance)
+
+          this.events.push({title: titre, start: debut, end: fin})
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 }
 

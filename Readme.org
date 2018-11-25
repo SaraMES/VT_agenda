@@ -9,6 +9,19 @@
     - [[#get-calendrier][GET Calendrier]]
   - [[#seance][Seance]]
     - [[#getseance][GET Seance by Id]]
+    - [[#CreateSeance][Create Seance]]
+    - [[#CreateSalleSeance][Create Salle Seance]]
+    - [[#CreateProfSeance][Create Prof Seance]]
+    - [[#DeleteSeance][Delete Seance]]
+  - [[#Professeur][Professeur]]
+    - [[#getProfesseur][GET Professeur]]
+  - [[#Salle][Salle]]
+    - [[#GetSalle][GET Salle]]
+  - [[#Enseignement][Enseignement]]
+    - [[#GetEnseignement][GET Enseignement]]
+
+    
+    
 
 
 * Team
@@ -25,7 +38,7 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
 ** Calendrier
 *** GET Calendrier
    - Return : http code
-   - Url :[[http://localhost:3000/calendrier]]
+   - Url :[[http://localhost:3000//calendrier/:debut?/:fin?]]
    - Method : =GET=
    - Required : =Date Debut=[String]=  =Date Fin=[String]=
    - Success Response :
@@ -58,3 +71,182 @@ VT agenda est un outil de gestion des ressources humaines et matériel au sein d
    - Error Response :
      - Code : =400 BAD REQUEST=
      - Content : =Rentrer une date Debut/Fin valide=
+     
+** Seance
+*** GETSeance
+    - Return : http code
+    - Url :[[http://localhost:3000/seance/:code_seance?]]
+    - Method : =GET=
+    - Required : =codeSeance=[String]=
+    - Success Response :
+    - Code : =200=
+    - Content :
+
+    {
+        "codeSeance": 243622,
+        "dateSeance": "2018-11-04T23:00:00.000Z",
+        "heureSeance": 830,
+        "dureeSeance": 130,
+        "codeEnseignement": 68438839,
+        "dateModif": "2018-09-10T12:37:52.000Z",
+        "deleted": 0,
+        "codeProprietaire": 90019,
+        "commentaire": "Prof : GUILLAUME PISSOT",
+        "bloquee": 0,
+        "diffusable": 1,
+        "dateCreation": "2018-05-03T15:00:06.000Z",
+        "annulee": 0,
+        "controle": 0
+    }
+    
+   - Error Response :
+     - Code : =400 BAD REQUEST=
+     - Content : =Rentrer une date Debut/Fin valide=
+
+*** CreateSeance
+   - Description : Pour back end, creation d' une nouvelle seance
+   - Return : http code
+   - Url : [[http://localhost:3000/seance]]
+   - Method : Post
+   - Required :
+          =dateSeance=[String]=
+          =heureSeance=[String]=
+          =dureeSeance=[String]=
+          =codeEnseignement=[String]=
+          =commentaire=[String]=
+          =dateCreation=[String]=          
+   - Success Response :
+     - Code : =200=
+     - Content : =Votre poste a était ajouté=
+   - Error Response 1 :
+     - Code : =400 BAD REQUEST=
+     - Content : =Erreur=
+     
+*** CreateSalleSeance
+   - Description : Pour back end, creation d' une nouvelle relier une seance à une salle
+   - Return : http code
+   - Url : [[http://localhost:3000/seance/salle]]
+   - Method : Post
+   - Required :
+          =codeSeance=[String]=
+          =codeRessource=[String]=
+     - Success Response :
+     - Code : =200=
+     - Content : =Votre poste a était ajouté=
+   - Error Response 1 :
+     - Code : =400 BAD REQUEST=
+     - Content : =Erreur=
+
+*** CreateProfSeance
+   - Description : Pour back end, attribuer un prof à une seance
+   - Return : http code
+   - Url : [[http://localhost:3000/seance/prof]]
+   - Method : Post
+   - Required :
+          =codeSeance=[String]=
+          =codeRessource=[String]=
+     - Success Response :
+     - Code : =200=
+     - Content : =Votre poste a était ajouté=
+   - Error Response 1 :
+     - Code : =400 BAD REQUEST=
+     - Content : =Erreur=
+     
+*** DeleteSeance
+   - Description : Pour back end, mettre à jour la valeur de colonne deleted est la mettre à 1
+   - Return : http code
+   - Url : [[http://localhost:3000/seance/[[=codeSeance=]]]]
+   - Method : Post
+   - Required :
+          =codeSeance=[String]=
+          =codeRessource=[String]=
+     - Success Response :
+     - Code : =200=
+     - Content : =Votre poste a était ajouté=
+   - Error Response 1 :
+     - Code : =400 BAD REQUEST=
+     - Content : =Erreur=
+     
+** Professeur
+*** getProfesseur
+    - Return : http code
+    - Url :[[http://localhost:3000/professeur/:id_enseignement?]]
+    - Method : =GET=
+    - Required : =id_enseignement=[String]=
+    - Success Response :
+    - Code : =200=
+    - Content :
+
+    {
+        "codeEnseignement": 200106,
+        "codeRessource": 600012,
+        "dateModif": "2018-10-24T09:01:25.000Z",
+        "deleted": 0,
+        "codeProprietaire": 10000,
+        "dateCreation": "2014-06-30T22:00:00.000Z",
+        "codeProf": 600012,
+        "couleurFond": 3647223,
+        "couleurPolice": 0,
+        "nom": "600012",
+        "prenom": "600012",
+        "codeGrade": 15432526,
+        "numero": 0,
+        "rue": "?",
+        "codePostal": 59000,
+        "ville": "?",
+        "pays": "FRANCE",
+        "telephone1": "",
+        "telephone2": "0",
+        "codeCnu": 0,
+        "alias": "600012",
+        "identifiant": "600012",
+        "email": "a.Melhaoui@iut.univ-evry.fr",
+        "commentaire": "##",
+        "codeComposante": 2137,
+        "titulaire": 1,
+        "dateValidationDossier": "2014-06-30T22:00:00.000Z",
+        "volStatSpecif": 0,
+        "volCompSpecif": 0,
+        "identifiantNational": "600012",
+        "prenom2": "600012",
+        "dateNaissance": "1965-06-07T22:00:00.000Z",
+        "dateDebutContrat": "1999-12-31T23:00:00.000Z",
+        "dateFinContrat": "4999-12-31T23:00:00.000Z"
+        
+     }     
+     - Error Response :
+     - Code : =400 BAD REQUEST=
+     - Content : =Rentrer id enseignement
+    
+** Salle
+*** GetSalle
+    - Return : http code
+    - Url :[[http://localhost:3000/salle]]
+    - Method : =GET=
+    - Success Response :
+    - Code : =200=
+    - Content :
+    
+    {
+        "nom": "IUT-HALLE CONV FR"
+    },    
+     - Error Response :
+     - Code : =400 BAD REQUEST=
+     
+** Enseignement
+*** GetEnseignement
+    - Return : http code
+    - Url :[[http://localhost:3000/enseignement]]
+    - Method : =GET=
+    - Success Response :
+    - Code : =200=
+    - Content :
+     {
+        "alias": "ADM PERSONNEL PAIE"
+     },  
+     - Error Response :
+     - Code : =400 BAD REQUEST=
+     
+    
+    
+    
