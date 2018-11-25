@@ -1,18 +1,30 @@
 <template>
-  <full-calendar :config="config" :events="events" />
+  <div id="HelloWorld">
+    <full-calendar :config="config" :events="events" />
+    <medit
+      v-if="showModal"
+      @mclose="showModal=false"
+      v-bind:selection="selected"
+    ></medit>
+    <button @click="showModal=true">Show Modal</button>
+  </div>
 </template>
 <script>
 import axios from 'axios'
 import $ from 'jquery'
 import 'fullcalendar'
-import './medit.vue'
+import medit from './medit.vue'
 
 const url = 'http://localhost:3000/calendrier/'
 
 export default {
   name: 'HelloWorld',
+  components: {
+    'medit': medit
+  },
   data () {
     return {
+      showModal: false,
       events: [
         {
           title: '',
@@ -29,7 +41,7 @@ export default {
           console.log('eventClick')
           this.selected = event
           console.log(event)
-          alert(event.title)
+          this.showModal = true
         },
 
         eventRender: function (event, element) {
@@ -50,7 +62,7 @@ export default {
         eventDrop: function () {
           console.log('eventDrop')
         },
-        close: function () {
+        mclose: function () {
           console.log('close modal')
         }
       }
@@ -130,8 +142,6 @@ export default {
 
       this.config.monthStart = moment.format().slice(0, 8) + '01'
       this.config.monthEnd = moment.format().slice(0, 8) + '31'
-
-      console.log('from ' + this.config.monthStart + ' to ' + this.config.monthEnd)
     },
 
     formatUrl: function () {

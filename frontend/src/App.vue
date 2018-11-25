@@ -1,22 +1,13 @@
 <template>
   <div id="app">
     <router-view/>
-    <medit v-if="showModal" @close="showModal=false"></medit>
-    <button @click="showModal=true">Show Modal</button>
   </div>
 </template>
 
 <script>
-import medit from './components/medit.vue'
 
 export default {
-  name: 'App',
-  components: {
-    'medit': medit
-  },
-  data () {
-    return {showModal: false}
-  }
+  name: 'App'
 }
 </script>
 
