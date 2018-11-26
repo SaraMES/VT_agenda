@@ -4,7 +4,7 @@
     <medit
       v-if="showModal"
       @mclose="showModal=false"
-      v-bind:selection="selected"
+      v-bind:course="selected"
     ></medit>
     <button @click="showModal=true">Show Modal</button>
   </div>
@@ -55,10 +55,6 @@ export default {
           console.log(event)
         },
 
-        select: function () {
-          console.log('select')
-        },
-
         eventDrop: function () {
           console.log('eventDrop')
         },
@@ -69,13 +65,17 @@ export default {
     }
   },
 
-  selected: {},
+  selected: {
+    title: '',
+    start: '',
+    end: ''
+  },
 
   methods: {
     formatTitle: function (Seance, Prof, Salle) {
       var title
 
-      title = '\n' + Seance + '\n' + Prof + '\n' + Salle
+      title = '\n' + Seance + '/' + '\n' + Prof + '/' + '\n' + Salle
 
       return title
     },
@@ -153,7 +153,6 @@ export default {
 
       return usedUrl
     },
-
     refreshEvents () {
       console.log('refresh')
       this.$refs.calendar.$emit('refetch-events')
@@ -168,7 +167,7 @@ export default {
       this.selected = event
     },
     eventCreated (...test) {
-      console.log(test)
+      console.log('eventCreated')
     }
   },
 
@@ -178,12 +177,10 @@ export default {
 
     axios.get('http://localhost:3000/calendrier/2018-01-01/2018-12-31')
       .then((response) => {
-        console.log(response.data.length)
-
         for (var i = 0; i < response.data.length; i++) {
-          var Seance = response.data[i].codeSeance
+          var Seance = response.data[i].codeEnseignement
           var Salle = response.data[i].nom_salle
-          var Prof = response.data[i].nom + ' ' + response.data[i].prenom
+          var Prof = response.data[i].nom
 
           var titre = this.formatTitle(Seance, Prof, Salle)
 
