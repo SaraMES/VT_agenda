@@ -1,4 +1,4 @@
-<template>
+teacher<template>
   <div id="HelloWorld">
     <full-calendar :config="config" :events="events" />
     <medit
@@ -6,7 +6,7 @@
       @mclose="showModal=false"
       v-bind:course="selected"
     ></medit>
-    <button @click="showModal=true">Show Modal</button>
+    <button v-on:click.prevent="addNewSeance">Show Modal</button>
   </div>
 </template>
 <script>
@@ -29,7 +29,12 @@ export default {
         {
           title: '',
           start: '',
-          end: ''
+          end: '',
+          teacher: '',
+          room: '',
+          code: '',
+          hour: '',
+          time: ''
         }
       ],
       config: {
@@ -66,18 +71,12 @@ export default {
   },
 
   selected: {
-    title: '',
-    start: '',
-    end: ''
   },
 
   methods: {
-    formatTitle: function (Seance, Prof, Salle) {
-      var title
-
-      title = '\n' + Seance + '/' + '\n' + Prof + '/' + '\n' + Salle
-
-      return title
+    addNewSeance: function () {
+      this.selected = this.events[0]
+      this.showModal = true
     },
 
     formatStart: function (dateSeance, h, min) {
@@ -172,30 +171,31 @@ export default {
   },
 
   mounted () {
-    console.log(url)
+    this.events.push({title: '', start: '', end: '', teacher: '', room: '', code: '', hour: '', time: ''})
+    this.selected = this.events[0]
+
     this.formatMonthFromTo()
 
     axios.get('http://localhost:3000/calendrier/2018-01-01/2018-12-31')
       .then((response) => {
         for (var i = 0; i < response.data.length; i++) {
-          var Seance = response.data[i].codeEnseignement
+          var Titre = response.data[i].alias
+          var codeEnseignement = response.data[i].codeEnseignement
           var Salle = response.data[i].nom_salle
           var Prof = response.data[i].nom
-
-          var titre = this.formatTitle(Seance, Prof, Salle)
 
           var dateSeance = new Date(response.data[i].dateSeance).toISOString().slice(0, 10)
           var h = parseInt(response.data[i].heureSeance / 100)
           var min = response.data[i].heureSeance - (h * 100)
 
-          var debut = this.formatStart(dateSeance, h, min)
+          var Debut = this.formatStart(dateSeance, h, min)
 
           var heureSeance = response.data[i].heureSeance
           var dureeSeance = response.data[i].dureeSeance
 
-          var fin = this.formatEnd(dateSeance, heureSeance, dureeSeance)
+          var Fin = this.formatEnd(dateSeance, heureSeance, dureeSeance)
 
-          this.events.push({title: titre, start: debut, end: fin})
+          this.events.push({title: Titre, start: Debut, end: Fin, teacher: Prof, room: Salle, code: codeEnseignement, hour: heureSeance, time: dureeSeance})
         }
       })
       .catch((error) => {
