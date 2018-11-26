@@ -31,7 +31,7 @@
 - Aya
 
 * Contexte
-VT agenda est un outil de gestion des ressources humaines et matériel au sein de l'université d'evry
+VT agenda est un outil de gestion des ressources humaines et matériels au sein de l'université d'evry, cet outil est composé d'une application qui est directement lié à la structure de la base de données, le but et d'abstraire le traitement des requêtes SQL du client en passant par une architecture en API.
 
 
 * Contrat d'API
