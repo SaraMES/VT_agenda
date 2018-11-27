@@ -8,8 +8,8 @@
           <button @click="$emit('mclose')" class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-          <div class="field">
-            <label class="label">Enseignant : {{ course.teacher }}</label>
+          <div class="control">
+            <label class="label">Enseignant : {{ course.code }}</label>
             <label class="label">Salle : {{ course.room }}</label>
             <label class="label">Date : {{ course.start.format().slice(0, 10) }}</label>
             <label class="label">Heure : {{ course.start.format().split('T')[1] }}</label>
@@ -93,8 +93,8 @@ export default {
       console.log(this.selection.title.slice(19, 42))
     },
     getProfesseurs: function () {
-      this.professeurs.splice(0, this.professeurs.length)
-      console.log('mmh' + this.selection.code)
+      console.log('mmh' + this.selection.code + ' ' + this.course.code)
+      console.log('http://localhost:3000/professeur/' + this.course.code)
       axios.get('http://localhost:3000/professeur/' + this.selection.code)
         .then((response) => {
           console.log('enseignements prof :' + response.data.codeEnseignement)
@@ -141,14 +141,11 @@ export default {
 
       if (complete.toString().slice(0, 1) < 8) {
         var h = complete.toString().slice(0, 1)
-        console.log(h)
         var min = complete.toString().split(0, 1)
 
         this.seance.heure = h + ':' + min
       }
       this.seance.heure = complete.toString().slice(0, 0) + ':' + complete.toString().slice(1, 2)
-
-      console.log(this.seance.heure)
     },
     formatDuree: function () {
       this.seance.duree = '0' + this.course.time.toString().slice(0, 1) + ':' + this.course.time.toString().slice(1, 3)

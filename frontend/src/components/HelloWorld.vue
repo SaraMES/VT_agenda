@@ -229,4 +229,7 @@ export default {
   a {
     color: #42b983;
   }
+  #calendar {
+    margin: 40px auto;
+  }
 </style>
