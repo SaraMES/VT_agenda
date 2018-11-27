@@ -1,30 +1,38 @@
 teacher<template>
   <div id="HelloWorld">
-    <full-calendar :config="config" :events="events" />
-    <medit
-      v-if="showModal"
-      @mclose="showModal=false"
+    <full-calendar :config="config" :events="events"></full-calendar>
+    <madd
+      v-if="showAddModal"
+      @mclose="showAddModal=false"
       v-bind:course="selected"
-    ></medit>
-    <button v-on:click.prevent="addNewSeance">Show Modal</button>
+    ></madd>
+    <mshow
+      v-if="showShowModal"
+      @mclose="showShowModal=false"
+      v-bind:course="selected"
+    ></mshow>
+    <button v-on:click.prevent="addNewSeance">Ajouter une séance</button>
   </div>
 </template>
 <script>
 import axios from 'axios'
 import $ from 'jquery'
 import 'fullcalendar'
-import medit from './medit.vue'
+import madd from './madd.vue'
+import mshow from './mshow.vue'
 
 const url = 'http://localhost:3000/calendrier/'
 
 export default {
   name: 'HelloWorld',
   components: {
-    'medit': medit
+    'madd': madd,
+    'mshow': mshow
   },
   data () {
     return {
-      showModal: false,
+      showAddModal: false,
+      showShowModal: false,
       events: [
         {
           title: '',
@@ -41,12 +49,11 @@ export default {
         monthStart: '',
         monthEnd: '',
         defaultView: 'month',
-
         eventClick: (event) => {
           console.log('eventClick')
           this.selected = event
           console.log(event)
-          this.showModal = true
+          this.showShowModal = true
         },
 
         eventRender: function (event, element) {
@@ -65,6 +72,7 @@ export default {
         },
         mclose: function () {
           console.log('close modal')
+          this.showAddModal = false
         }
       }
     }
@@ -76,7 +84,7 @@ export default {
   methods: {
     addNewSeance: function () {
       this.selected = this.events[0]
-      this.showModal = true
+      this.showAddModal = true
     },
 
     formatStart: function (dateSeance, h, min) {
@@ -203,7 +211,6 @@ export default {
       })
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -2,57 +2,22 @@
   <div id="mshow" class="container">
     <div class="modal is-active">
       <div class="modal-background"></div>
-      <div class="modal-content">
-        <div class="box control">
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">{{ course.title }}</p>
+          <button @click="$emit('mclose')" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
           <div class="field">
-            <label class="label">Matière</label>
-            <div class="select" >
-              <select class="control" v-model="course.code">
-                <option class="input" v-on:click="getProfesseurs" v-for="enseignement in enseignements" :key="enseignement.codeEnseignement" v-bind:value="enseignement.codeEnseignement">{{ enseignement.alias }}</option>
-              </select>
-            </div>
+            <label class="label">Enseignant : {{ course.teacher }}</label>
+            <label class="label">Salle : {{ course.room }}</label>
+            <label class="label">Date : {{ course.start.format().slice(0, 10) }}</label>
+            <label class="label">Heure : {{ course.start.format().split('T')[1] }}</label>
+            <label class="label">Durée : {{ this.seance.duree }}</label>
           </div>
-          <div class="field">
-            <label class="label">Enseignant</label>
-            <div class="select" >
-              <select class="control" v-model="course.name">
-                <option class="input" v-for="professeur in professeurs" :key="professeur.nom" v-bind:value="professeur.nom">{{ professeur.nom }} {{ professeur.prenom }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Date de la séance</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Text input" v-model.lazy="course.date">
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Heure de début</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Text input" v-model="course.hour">
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Durée de la séance</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Text input" v-model="course.time">
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Commentaire</label>
-            <div class="control">
-              <textarea class="textarea" placeholder="Textarea" v-model="course.comment"></textarea>
-            </div>
-          </div>
-          <div class="field is-grouped">
-            <div class="control">
-              <button v-on:click.prevent="post" class="button is-link">Submit</button>
-            </div>
-            <div class="control">
-              <button @click="$emit('mclose')" class="button is-text">Cancel</button>
-            </div>
-          </div>
-        </div>
+        </section>
+        <footer class="modal-card-foot">
+        </footer>
       </div>
     </div>
   </div>
@@ -102,69 +67,27 @@ export default {
           alias: '',
           codeEnseignement: ''
         }
+      ],
+      salles: [
+        {
+          nom: ''
+        }
       ]
-
     }
   },
   methods: {
-    post: function () {
-      console.log('post')
-      var lastSeance
-      var codeRessource = '68226118'
-
-      axios.post('http://localhost:3000/Seance', {
-        dateSeance: this.selection.date,
-        heureSeance: this.selection.hour,
-        dureeSeance: this.selection.time,
-        codeEnseignement: this.selection.code,
-        commentaire: this.selection.comment
-      }).then(function (data) {
-        console.log('post seance')
-        console.log(data)
-      })
-      axios.get('http://localhost:3000/lastseance')
-        .then((response) => {
-          console.log('get lastseance')
-          for (var i = 0; i < response.data.length; i++) {
-            var lastSeance = response.data[i].last_seance
-            console.log('n° séance : ' + lastSeance)
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      axios.post('http://localhost:3000/Seance/prof', {
-        codeSeance: lastSeance,
-        codeRessource: codeRessource
-      }).then(function (data) {
-        console.log('post seance_prof')
-        console.log(data)
-      })
-      axios.post('http://localhost:3000/Seance/salle', {
-        codeSeance: lastSeance,
-        codeRessource: codeRessource
-      }).then(function (data) {
-        console.log('post seance_salle')
-        console.log(data)
-      })
-    },
     formatDate: function () {
-      var date = this.selection.start
+      var date = this.selection.year + '-' + this.selection.month + '-' + this.selection.day
+      console.log(date)
+      this.Seance.date = date
 
-      date.stripTime()
-      this.seance.date = date.format()
+      return date
     },
     formatCodeEnseignement: function () {
       this.seance.codeEnseignement = this.selection.codeEnseignement
-      console.log(this.seance.codeEnseignement)
-      console.log('enseignements format' + this.enseignements.length)
-    },
-    findEnseignement: function () {
-      console.log('findEnseignement' + this.enseignements.length)
     },
     formatProfesseur: function () {
       this.seance.codeEnseignement = this.selection.prof
-      console.log(this.selection.prof)
     },
     formatSalle: function () {
       console.log(this.selection.title.slice(19, 42))
@@ -185,24 +108,58 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    getEnseignements: function () {
+      axios.get('http://localhost:3000/enseignement')
+        .then((response) => {
+          console.log('nombre enseignements' + response.data.length)
+          for (var i = 0; i < response.data.length; i++) {
+            var al = response.data[i].alias
+            var code = response.data[i].codeEnseignement
+            this.enseignements.push({alias: al, codeEnseignement: code})
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    getSalles: function () {
+      axios.get('http://localhost:3000/salle')
+        .then((response) => {
+          console.log('nombre salles' + response.data.length)
+          for (var i = 0; i < response.data.length; i++) {
+            var al = response.data[i].nom
+            this.salles.push({nom: al})
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    formatHeure: function () {
+      var complete = this.selection.hour
+
+      if (complete.toString().slice(0, 1) < 8) {
+        var h = complete.toString().slice(0, 1)
+        console.log(h)
+        var min = complete.toString().split(0, 1)
+
+        this.seance.heure = h + ':' + min
+      }
+      this.seance.heure = complete.toString().slice(0, 0) + ':' + complete.toString().slice(1, 2)
+
+      console.log(this.seance.heure)
+    },
+    formatDuree: function () {
+      this.seance.duree = '0' + this.course.time.toString().slice(0, 1) + ':' + this.course.time.toString().slice(1, 3)
     }
   },
   beforeMount () {
-    axios.get('http://localhost:3000/enseignement')
-      .then((response) => {
-        console.log('nombre enseignements' + response.data.length)
-        for (var i = 0; i < response.data.length; i++) {
-          var al = response.data[i].alias
-          var code = response.data[i].codeEnseignement
-          this.enseignements.push({alias: al, codeEnseignement: code})
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  },
-  mounted () {
-
+    this.getEnseignements()
+    this.getSalles()
+    this.getProfesseurs()
+    this.formatHeure()
+    this.formatDuree()
   }
 }
 </script>
